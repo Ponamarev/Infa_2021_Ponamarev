@@ -1,8 +1,7 @@
 #include <iostream>
 
 
-int main()
-{
+int main(){
 
     int lenght_rect;
 
