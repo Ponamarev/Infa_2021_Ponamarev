@@ -248,7 +248,9 @@ List* merge_lists(List* first_massive, List* second_massive) {
 
 
 List* multiplication(int multiplier, List* massive) {
-    /**/
+    /*
+    This function returns an array containing multiple (multiplier) the elements of the "massive" array are repeated once.
+    */
     List* multiplied_list = new List();
 
     for (int num = 1; num <= multiplier; num++) {
