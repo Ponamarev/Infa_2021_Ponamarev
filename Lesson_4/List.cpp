@@ -1,10 +1,12 @@
 #include <iostream>
 
 
-/*Должны быть функции копирование,      +
+/*
+Должны быть функции копирование,        +
 добавление елементов в начало и конец,  +
 удаление по номеру и по значению,       +
-слияние, умножение на целое число.*/
+слияние, умножение на целое число.      +
+*/
 
 
 struct Element {
@@ -73,6 +75,8 @@ int search_element_with_current(int current, List* massive) {
         std::cout << "There are no elements in this array.";
     }
 
+    delete [] ptr_element;
+
     return number_of_element;
 }
 
@@ -138,6 +142,8 @@ void print_list(List* massive, bool end_line) {
     if (end_line) {
         std::cout << std::endl;
     }
+
+    delete [] ptr_element;
 }
 
 
@@ -174,6 +180,8 @@ void remove_element_with_number(int number, List* massive) {
 
         massive->lenght --;
     }
+
+    delete [] ptr_element;
 }
 
 
@@ -200,11 +208,13 @@ List* copy_list(List* massive) {
         }
     }
 
+    delete [] ptr_element_of_old_list;
+
     return new_list;
 }
 
 
-List* merge_lists(List* first_massive, List* second_massive) { //TO FIX!!!
+List* merge_lists(List* first_massive, List* second_massive) {
     /*
     This function combines two arrays "first_massive" and "second_massive" into one.
     return List*.
@@ -228,17 +238,21 @@ List* merge_lists(List* first_massive, List* second_massive) { //TO FIX!!!
         merged_list = copied_list_one;
     }
 
+    merged_list->lenght = first_massive->lenght + second_massive->lenght;
+
+    delete [] copied_list_one;
+    delete [] copied_list_two;
+
     return merged_list;
 }
 
 
-List* multiplication(int multiplier, List* massive) { //TO FIX!!!
+List* multiplication(int multiplier, List* massive) {
     /**/
     List* multiplied_list = new List();
 
     for (int num = 1; num <= multiplier; num++) {
         multiplied_list = merge_lists(multiplied_list, massive);
-        print_list(multiplied_list, 1);
     }
 
     return multiplied_list;
@@ -259,7 +273,7 @@ int main() {
     std::cout << std::endl;
 
     std::cout << "We can search element with current 2" << std::endl;
-    std::cout << "It have number " << search_element_with_current(3, asd) << std::endl;
+    std::cout << "It have number " << search_element_with_current(2, asd) << std::endl;
     std::cout << std::endl;
 
     std::cout << "We can remove element with current 2" << std::endl;
@@ -268,18 +282,23 @@ int main() {
     print_list(asd, 1);
     std::cout << std::endl;
 
-    std::cout << "We can copy this massive" << std::endl;
-    print_list(copy_list(asd), 1);
+    std::cout << "We can copy this massive and append to it element 23" << std::endl;
+    List * qwe = copy_list(asd);
+    append(23, qwe);
+    print_list(asd, 1);
+    print_list(qwe, 1);
     std::cout << std::endl;
 
     std::cout << "We can merge two lists." << std::endl;
     List* asdf = new List();
     append(123, asdf);
+    print_list(asd, 1);
+    print_list(asdf, 1);
     List* asdfg = merge_lists(asd, asdf);
     print_list(asdfg, 1);
     std::cout << std::endl;
 
-    std::cout << "We can multiply a list by a number." << std::endl;
+    std::cout << "We can multiply a list by a number (3)." << std::endl;
     print_list(multiplication(3, asd), 1);
     std::cout << std::endl;
 
