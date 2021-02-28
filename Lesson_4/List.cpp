@@ -22,6 +22,12 @@ struct List {
 };
 
 
+List* create_empty() {
+    List* empty_list = new List();
+    return empty_list;
+}
+
+
 Element* search_element_with_number(int number, List* massive) {
     /*
     This function searches for the array element "massive" under the number "number" (numbering starts with one).
@@ -304,7 +310,11 @@ int main() {
     print_list(multiplication(3, asd), 1);
     std::cout << std::endl;
 
-
+    /*
+    Вопросы: если есть два указателя на одну и ту же ячейку кучи. Тогда при удалении одного из них, сохранетс ли второй.
+    Как удалять указатель на элемент массива.
+    Как удалять массив.
+    */
 
 
 }
