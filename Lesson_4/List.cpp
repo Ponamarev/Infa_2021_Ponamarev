@@ -220,6 +220,35 @@ List* copy_list(List* massive) {
 }
 
 
+void reverse_list(List* massive) {
+    /**/
+    Element* ptr_element;
+    Element* old_next_ptr_element;
+    Element* old_prew_ptr_element;
+
+    ptr_element = massive->start_ptr;
+    old_next_ptr_element = ptr_element->next_ptr;
+    ptr_element->next_ptr = nullptr;
+
+    for (int i = 1; i < massive->lenght; i++)
+    {
+        old_prew_ptr_element = ptr_element;
+        ptr_element = old_next_ptr_element;
+        old_next_ptr_element = old_next_ptr_element->next_ptr;
+
+        //Развернем указатель с следующего на предыдущий элемент.
+        ptr_element->next_ptr = old_prew_ptr_element;
+    }
+
+    //Поменяем указатели массива на конец и на начало местами.
+    old_next_ptr_element = massive->end_ptr;
+    old_prew_ptr_element = massive->start_ptr;
+
+    massive->end_ptr = old_prew_ptr_element;
+    massive->start_ptr = old_next_ptr_element;
+}
+
+
 List* merge_lists(List* first_massive, List* second_massive) {
     /*
     This function combines two arrays "first_massive" and "second_massive" into one.
@@ -309,6 +338,11 @@ int main() {
     std::cout << "We can multiply a list by a number (3)." << std::endl;
     print_list(multiplication(3, asd), 1);
     std::cout << std::endl;
+
+    std::cout << "We can reverse list." << std::endl;
+    print_list(asd, 1);
+    reverse_list(asd);
+    print_list(asd, 1);
 
     /*
     Вопросы: если есть два указателя на одну и ту же ячейку кучи. Тогда при удалении одного из них, сохранетс ли второй.
