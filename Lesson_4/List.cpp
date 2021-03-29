@@ -296,6 +296,38 @@ List* multiplication(int multiplier, List* massive) {
 }
 
 
+
+void buble_sort(List* massive, bool increase, bool visual) {
+    /*
+    Принимает ссылку на динамический массив massive
+    increase - если true, то сортировка по возрастанию, если false, то по убыванию.
+    */
+    int step_number;
+    Element* ptr_element = nullptr;
+    bool is_massive_sort = false;
+    int i = 0;
+
+    while (!(is_massive_sort)) {
+        is_massive_sort = true; //Если будет перестановка, то поменяетс обранто на false.
+        for (int i = 1; i < massive->lenght; i++) {
+            ptr_element = search_element_with_number(i, massive);
+
+            if ((increase && (ptr_element->current > ptr_element->next_ptr->current))||
+                (!(increase) && (ptr_element->current < ptr_element->next_ptr->current))) {
+                step_number = ptr_element->current;
+                ptr_element->current = ptr_element->next_ptr->current;
+                ptr_element->next_ptr->current = step_number;
+                is_massive_sort = false;
+            }
+
+        }
+        if (visual ) {
+             print_list(massive, true);
+        }
+    }
+}
+
+
 int main() {
     std::cout << "This is testing mod." << std::endl << std::endl;
 
