@@ -1,14 +1,6 @@
 #include <iostream>
 
 
-/*
-Должны быть функции копирование,        +
-добавление елементов в начало и конец,  +
-удаление по номеру и по значению,       +
-слияние, умножение на целое число.      +
-*/
-
-
 struct Element {
     int current;
     Element* next_ptr = nullptr;
@@ -217,6 +209,91 @@ List* copy_list(List* massive) {
     delete [] ptr_element_of_old_list;
 
     return new_list;
+}
+
+
+int pop(List* massive) {
+    /*
+    Выдает значение следующего элемента очереди, удаляя этот элемент.
+    Будем считать следующим элементом -  первый в списке ( к нему есть функция, обращающаяся за 0(1))
+    */
+    int answer = 0;
+
+    if (massive -> lenght != 0){
+        answer = search_element_with_number(1, massive)->current;
+        remove_element_with_number(1, massive);
+    }
+    else {
+        std::cout << "This queue is empty" << std::endl;
+    }
+
+    return answer;
+}
+
+
+void push_queue(int current, List* massive) {
+    /*
+    Добавляет элемент в конец очереди.
+    */
+    append(current, massive);
+}
+
+
+bool empty_queue(List* massive) {
+    /*
+    Проверяет, пуста ли очередь
+    */
+    bool answer = false;
+
+    if (massive->lenght == 0) {
+        answer = true;
+    }
+
+    return answer;
+}
+
+
+Element* front_queue(List* massive) {
+    /*
+    Обращается к первому элементу очереди.
+    */
+    return search_element_with_number(1, massive);
+}
+
+
+Element* back_queue(List* massive) {
+    /*
+    Обращается к последнему элементу очереди.
+    */
+    return search_element_with_number(massive->lenght, massive);
+}
+
+
+int main() {
+    List* massive = create_empty();
+
+    std::cout << "Create queue" << std::endl;
+    for (int i = 0; i < 6; i++) {
+        push_queue(i, massive);
+    }
+    print_list(massive, true);
+
+    std::cout << "using pop(): answer = " << pop(massive) << std::endl;
+    print_list(massive, true);
+
+    std::cout << "using pop(): answer = " << pop(massive) << std::endl;
+    print_list(massive, true);
+
+    std::cout << "using back_queue(): answer = " << back_queue(massive) << "   It's current = " << back_queue(massive)->current << std::endl;
+    print_list(massive, true);
+
+    std::cout << "using front_queue(): answer = " << front_queue(massive)  << "   It's current = " << front_queue(massive)->current << std::endl;
+    print_list(massive, true);
+
+    std::cout << "using empty_queue(): answer = " << empty_queue(massive) << std::endl;
+    print_list(massive, true);
+
+    return 0;
 }
 
 
