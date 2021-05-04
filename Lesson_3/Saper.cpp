@@ -54,7 +54,7 @@ int main() {
     }
 
     for (int i = 0; i < lenght_x * lenght_y; i++) {
-        if(i % lenght_x == 0) {
+        if(i % lenght_x == 0 && i != 0) {
             std::cout << std::endl;
         }
         if (ptr_map_of_bombs[i]) {
@@ -63,5 +63,13 @@ int main() {
         else {
             std::cout << ptr_map_of_answer[i];
         }
+        if((i + 1) % lenght_x != 0) {
+            std::cout << ' ';
+        }
     }
+
+    delete [] ptr_map_of_answer;
+    delete [] ptr_map_of_bombs;
+
+    return 0;
 }
