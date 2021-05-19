@@ -4,12 +4,12 @@
 
 // For using this program, you need to write n - size of matrix;
 const int n = 400; // size of matrix.
-// Работает для всех чисел !!!
+// Р Р°Р±РѕС‚Р°РµС‚ РґР»СЏ РІСЃРµС… С‡РёСЃРµР» !!!!!
 
 
 int naive_algorithm(int (&A)[n][n], int (&B)[n][n], int (&C)[n][n], int size_matrix) {
     /*
-    Перемножает матрицы по обычному правилу перемножения матриц.
+    ГЏГҐГ°ГҐГ¬Г­Г®Г¦Г ГҐГІ Г¬Г ГІГ°ГЁГ¶Г» ГЇГ® Г®ГЎГ»Г·Г­Г®Г¬Гі ГЇГ°Г ГўГЁГ«Гі ГЇГҐГ°ГҐГ¬Г­Г®Г¦ГҐГ­ГЁГї Г¬Г ГІГ°ГЁГ¶.
     */
 
     for (int x = 0; x < size_matrix; x++) {
@@ -26,7 +26,7 @@ int naive_algorithm(int (&A)[n][n], int (&B)[n][n], int (&C)[n][n], int size_mat
 
 bool isPower2(int number) {
     /*
-    Проверяет, является ли число степенью двойки;
+    ГЏГ°Г®ГўГҐГ°ГїГҐГІ, ГїГўГ«ГїГҐГІГ±Гї Г«ГЁ Г·ГЁГ±Г«Г® Г±ГІГҐГЇГҐГ­ГјГѕ Г¤ГўГ®Г©ГЄГЁ;
     */
     bool answer = false;
     // Log2(number);
@@ -89,7 +89,7 @@ int sub(int (&AM1)[n][n], int (&BM1)[n][n], int (&CM1)[n][n], int seg) {
 
 int strassen(int (&A)[n][n], int (&B)[n][n], int (&C)[n][n], int size_matrix) {
     /*
-    Перемножает матрицы А и B; C -  указатель на матрицу - результат работы.
+    ГЏГҐГ°ГҐГ¬Г­Г®Г¦Г ГҐГІ Г¬Г ГІГ°ГЁГ¶Г» ГЂ ГЁ B; C -  ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  Г¬Г ГІГ°ГЁГ¶Гі - Г°ГҐГ§ГіГ«ГјГІГ ГІ Г°Г ГЎГ®ГІГ».
     */
     if (size_matrix <= 64 or size_matrix % 2 == 1) {
         naive_algorithm(A, B, C, size_matrix);
