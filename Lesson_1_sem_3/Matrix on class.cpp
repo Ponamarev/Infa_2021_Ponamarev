@@ -4,8 +4,8 @@
 class Matrix2D {
 private:
     bool inited = false;
-    unsigned int x_size;
-    unsigned int y_size;
+    unsigned int x_size = 0;
+    unsigned int y_size = 0;
     double* ptr_data;
 
 
@@ -25,11 +25,10 @@ public:
         }
 
 
-    Matrix2D(unsigned int size) {
+    Matrix2D(unsigned int size): Matrix2D(size, size) {
      /*
         size размер матрицы 2d начина€ с единицы.
     */
-        Matrix2D(size, size);
     }
 
 
@@ -47,12 +46,9 @@ public:
         /*
         ¬ыводит матрицу в консоль.
         */
-        std::cout << y_size << std::endl;
-        std::cout << x_size << std::endl;
         for(int y = 0; y < y_size; y++) {
             for(int x = 0; x < x_size; x++) {
-                std::cout << "1";
-                //printf("%-5d", ptr_data[y * x_size + x]);
+                printf("%-5d", Matrix2D_search(x, y));
                 if(x == x_size - 1) {
                     std::cout << std::endl;
                 }
@@ -68,8 +64,6 @@ public:
     /*
     «аполн€ет матрицу числом number.
     */
-    std::cout << y_size << std::endl;
-    std::cout << x_size << std::endl;
     for (int i = 0; i < y_size * x_size; i++) {
         ptr_data[i] = number;
         }
