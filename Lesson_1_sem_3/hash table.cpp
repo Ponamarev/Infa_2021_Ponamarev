@@ -112,9 +112,9 @@ void appstart(int current, List* massive) {
         massive->end_ptr = ptr_new_element;
     }
 
-    //Назначаем элементу указатель на бывший первый элемент массива.
+    //ГЌГ Г§Г­Г Г·Г ГҐГ¬ ГЅГ«ГҐГ¬ГҐГ­ГІГі ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГЎГ»ГўГёГЁГ© ГЇГҐГ°ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ Г¬Г Г±Г±ГЁГўГ .
     ptr_new_element->next_ptr = massive->start_ptr;
-    //Меняем указатель массива на новый первый элемент.
+    //ГЊГҐГ­ГїГҐГ¬ ГіГЄГ Г§Г ГІГҐГ«Гј Г¬Г Г±Г±ГЁГўГ  Г­Г  Г­Г®ГўГ»Г© ГЇГҐГ°ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ.
     massive->start_ptr = ptr_new_element;
     massive->lenght ++;
 }
@@ -171,7 +171,7 @@ void remove_element_with_number(int number, List* massive) {
         }
 
         else {
-            //Найдем элемент, идущий до удаляемого.
+            //ГЌГ Г©Г¤ГҐГ¬ ГЅГ«ГҐГ¬ГҐГ­ГІ, ГЁГ¤ГіГ№ГЁГ© Г¤Г® ГіГ¤Г Г«ГїГҐГ¬Г®ГЈГ®.
             for (int num = 1; num < number - 1; num++) {
                 ptr_element = ptr_element->next_ptr;
             }
@@ -196,7 +196,7 @@ void remove_element_with_current(int current, List* massive) {
 
 
 class Hash_table {
-public:
+private:
     int prime = 4;
     int alpha_hash = 3;
     int table_len = 10;
@@ -246,8 +246,8 @@ public:
 
     void add_new_element_to_not_full_table(Element* elem, List* ptr_data, int table_len) {
     /*
-    Добавляет новый элемент в не заполненную таблицу.
-    Если нет уверенности, что есть свободные места  - не использовать!
+    Г„Г®ГЎГ ГўГ«ГїГҐГІ Г­Г®ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ Гў Г­ГҐ Г§Г ГЇГ®Г«Г­ГҐГ­Г­ГіГѕ ГІГ ГЎГ«ГЁГ¶Гі.
+    Г…Г±Г«ГЁ Г­ГҐГІ ГіГўГҐГ°ГҐГ­Г­Г®Г±ГІГЁ, Г·ГІГ® ГҐГ±ГІГј Г±ГўГ®ГЎГ®Г¤Г­Г»ГҐ Г¬ГҐГ±ГІГ   - Г­ГҐ ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј!
     */
     int id = hash_first(elem->name);
     Element* ptr_element = search_element_with_number(id, ptr_data);
@@ -259,7 +259,7 @@ public:
                 Element* ptr_element = search_element_with_number(id + 1, ptr_data);
             }
         }
-        //добавление элемента
+        //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГЅГ«ГҐГ¬ГҐГ­ГІГ 
         elem->next_ptr = ptr_element->next_ptr;
             if(id != 1) {
                 search_element_with_number(id - 1  + 1, ptr_data)->next_ptr = elem;
@@ -279,15 +279,15 @@ public:
     }
 
 
-    void rehash(int new_len) {// ЧТО С ДЛИНОЙ
+    void rehash(int new_len) {// Г—Г’ГЋ Г‘ Г„Г‹Г€ГЌГЋГ‰
     /*
-    Делает рехеш таблицы в новую таблицу.
+    Г„ГҐГ«Г ГҐГІ Г°ГҐГµГҐГё ГІГ ГЎГ«ГЁГ¶Г» Гў Г­Г®ГўГіГѕ ГІГ ГЎГ«ГЁГ¶Гі.
     */
     List* new_ptr_list = new List();
         for (int i = 0; i < new_len; i++) {
             append(0, new_ptr_list);
         }
-        //Перенос элементов в новый массив.
+        //ГЏГҐГ°ГҐГ­Г®Г± ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Гў Г­Г®ГўГ»Г© Г¬Г Г±Г±ГЁГў.
         Element* ptr_elem_old_data = ptr_data->start_ptr;
         Element* ptr_next_elem_old_data = ptr_elem_old_data;
         for (int i = 0; i < table_len; i++) {
@@ -310,12 +310,12 @@ public:
 
     void add_new_element(Element* elem) {
     /*
-    Добавляет новый элемент в хеш таблицу.
+    Г„Г®ГЎГ ГўГ«ГїГҐГІ Г­Г®ГўГ»Г© ГЅГ«ГҐГ¬ГҐГ­ГІ Гў ГµГҐГё ГІГ ГЎГ«ГЁГ¶Гі.
     */
 
-// ПРОВЕРКА НА ЗАПОЛНЕННОСТЬ ТАБЛИЦЫ
+// ГЏГђГЋГ‚Г…ГђГЉГЂ ГЌГЂ Г‡ГЂГЏГЋГ‹ГЌГ…ГЌГЌГЋГ‘Г’Гњ Г’ГЂГЃГ‹Г€Г–Г›
     if (count_of_elements > 0.7 * table_len) {
-        int new_len; // временно!!!!!!!!!!
+        int new_len; // ГўГ°ГҐГ¬ГҐГ­Г­Г®!!!!!!!!!!
         if (table_len < 50) {
             new_len = table_len * 2;
         }
@@ -327,7 +327,7 @@ public:
         for (int i = 0; i < new_len; i++) {
             append(0, new_ptr_list);
         }
-        //Перенос элементов в новый массив.
+        //ГЏГҐГ°ГҐГ­Г®Г± ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Гў Г­Г®ГўГ»Г© Г¬Г Г±Г±ГЁГў.
         Element* ptr_elem_old_data = ptr_data->start_ptr;
         Element* ptr_next_elem_old_data = ptr_elem_old_data;
         for (int i = 0; i < table_len; i++) {
