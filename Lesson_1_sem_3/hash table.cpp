@@ -196,8 +196,8 @@ void remove_element_with_current(int current, List* massive) {
 
 
 class Hash_table {
-public:
-    int prime = 4;
+private:
+    int prime = 5;
     int alpha_hash = 3;
     int table_len = 10;
     int count_of_elements = 0;
@@ -237,31 +237,33 @@ public:
 
 
     int hash_second(std::string name, int hash) {
-        for(int i = 0; i < name.length(); i++) {
-            hash = (prime * hash + alpha_hash) % table_len;
+        for(int i = 0; i < 1; i++) {
+            hash = (hash + alpha_hash) % table_len;
         }
         return hash;
     }
 
 
-    void add_new_element_to_not_full_table(Element* elem, List* ptr_data, int table_len) {
+    void add_new_element_to_not_full_table(Element* elem, List* ptr_data, int table_len, bool is_rehash) {
     /*
     Добавляет новый элемент в не заполненную таблицу.
     Если нет уверенности, что есть свободные места  - не использовать!
     */
     int id = hash_first(elem->name);
-    Element* ptr_element = search_element_with_number(id, ptr_data);
+    Element* ptr_element = search_element_with_number(id + 1, ptr_data);
+    elem->empty = false;
 
     if (table_len > count_of_elements) {
         if (not(ptr_element->empty)) {
             while (not(ptr_element->empty)) {
                 id = hash_second(elem->name, id);
-                Element* ptr_element = search_element_with_number(id + 1, ptr_data);
+                std::cout <<"id_in_adding" << id << std::endl;
+                ptr_element = search_element_with_number(id + 1, ptr_data);
             }
         }
         //добавление элемента
         elem->next_ptr = ptr_element->next_ptr;
-            if(id != 1) {
+            if(id != 0) {
                 search_element_with_number(id - 1  + 1, ptr_data)->next_ptr = elem;
                 if (id + 1 == ptr_data->lenght) {
                     ptr_data->end_ptr = elem;
@@ -270,9 +272,12 @@ public:
             else {
                 ptr_data->start_ptr = elem;
                 }
+            if (not(is_rehash)) {
             count_of_elements++;
-            delete ptr_element;
             }
+            delete ptr_element;
+        }
+
         else {
             std::cout << "The table is full!";}
     std::cout << 11 << std::endl;
@@ -283,6 +288,8 @@ public:
     /*
     Делает рехеш таблицы в новую таблицу.
     */
+    std::cout << "new_len = " << new_len << " old table_len" << this->table_len << std::endl;
+
     List* new_ptr_list = new List();
         for (int i = 0; i < new_len; i++) {
             append(0, new_ptr_list);
@@ -296,15 +303,19 @@ public:
                 ptr_next_elem_old_data = ptr_elem_old_data->next_ptr;
             }
             if (not(ptr_elem_old_data->empty)) {
-                add_new_element_to_not_full_table(ptr_elem_old_data, new_ptr_list, new_len);
+                    std::cout << "Rehashing: " << ptr_elem_old_data->name << std::endl;
+                add_new_element_to_not_full_table(ptr_elem_old_data, new_ptr_list, new_len, true);
             }
             else {
-                delete [] ptr_elem_old_data;
+                delete ptr_elem_old_data;
             }
         }
-        table_len = new_len;
-        delete [] ptr_data;
+
+        this->table_len = new_len;// dgxfyuiopughfxduyip[jhukgcfxdtuyo
+        delete ptr_data;
         ptr_data = new_ptr_list;
+        std::cout << "new_len = " << new_len << " new table_len" << this->table_len << std::endl;
+
     }
 
 
@@ -323,30 +334,10 @@ public:
             new_len = table_len * 1.3;
         }
 
-        List* new_ptr_list = new List();
-        for (int i = 0; i < new_len; i++) {
-            append(0, new_ptr_list);
-        }
-        //Перенос элементов в новый массив.
-        Element* ptr_elem_old_data = ptr_data->start_ptr;
-        Element* ptr_next_elem_old_data = ptr_elem_old_data;
-        for (int i = 0; i < table_len; i++) {
-            ptr_elem_old_data = ptr_next_elem_old_data;
-            if (i != table_len - 1) {
-                ptr_next_elem_old_data = ptr_elem_old_data->next_ptr;
-            }
-            if (not(ptr_elem_old_data->empty)) {
-                add_new_element_to_not_full_table(ptr_elem_old_data, new_ptr_list, new_len);
-            }
-            else {
-                delete [] ptr_elem_old_data;
-            }
-        }
-        delete [] ptr_data;
-        ptr_data = new_ptr_list;
+        rehash(new_len);
 
     }
-    add_new_element_to_not_full_table(elem, ptr_data, table_len);
+    add_new_element_to_not_full_table(elem, ptr_data, table_len, false);
     }
 
 
@@ -386,16 +377,18 @@ int main() {
          'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
     'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
     std::string strg;
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 25; i++) {
         strg += arr[i];
         Element* elem = new Element();
         elem->name = strg;
-        std::cout << strg << table.hash_first(strg) << std::endl;
-        table.add_new_element_to_not_full_table(elem, table.ptr_data, 10);
+        std::cout << strg << std::endl;
+        std::cout << "эл-тов " << table.count_of_elements << " " << table.table_len<< " " << table.ptr_data->lenght << std::endl;
+        table.add_new_element(elem);
     }
     std::cout << "Table is used" << std::endl;
     std::cout << "find a" << std::endl;
     std::cout << table.search_elem("a")->name << std::endl;
+
 
     return 0;
 }
