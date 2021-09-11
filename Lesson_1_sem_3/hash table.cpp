@@ -76,7 +76,7 @@ int search_element_with_current(int current, List* massive) {
         std::cout << "There are no elements in this array.";
     }
 
-    delete [] ptr_element;
+    delete ptr_element;
 
     return number_of_element;
 }
@@ -196,7 +196,7 @@ void remove_element_with_current(int current, List* massive) {
 
 
 class Hash_table {
-private:
+public:
     int prime = 4;
     int alpha_hash = 3;
     int table_len = 10;
@@ -216,14 +216,14 @@ public:
         Element* ptr_element = ptr_data->start_ptr;
         Element* ptr_next_element = ptr_element->next_ptr;
         for(int i = 0; i < table_len; i++) {
-            //delete[] ptr_element;   //ÊÀÊ ÒÓÒ ÓÄÀËßÒÜ!!!!!!
+            delete ptr_element;
             Element* ptr_element = ptr_next_element;
             if(i != table_len - 1) {
                 ptr_next_element = ptr_next_element->next_ptr;
             }
         }
 
-        delete [] ptr_data;
+        delete ptr_data;
     }
 
 
@@ -252,7 +252,7 @@ public:
     int id = hash_first(elem->name);
     Element* ptr_element = search_element_with_number(id, ptr_data);
 
-    if (table_len < count_of_elements) {
+    if (table_len > count_of_elements) {
         if (not(ptr_element->empty)) {
             while (not(ptr_element->empty)) {
                 id = hash_second(elem->name, id);
@@ -271,14 +271,15 @@ public:
                 ptr_data->start_ptr = elem;
                 }
             count_of_elements++;
-            delete [] ptr_element;
+            delete ptr_element;
             }
         else {
             std::cout << "The table is full!";}
+    std::cout << 11 << std::endl;
     }
 
 
-    void rehash(int new_len) {
+    void rehash(int new_len) {// ×ÒÎ Ñ ÄËÈÍÎÉ
     /*
     Äåëàåò ðåõåø òàáëèöû â íîâóþ òàáëèöó.
     */
@@ -301,6 +302,7 @@ public:
                 delete [] ptr_elem_old_data;
             }
         }
+        table_len = new_len;
         delete [] ptr_data;
         ptr_data = new_ptr_list;
     }
@@ -352,10 +354,16 @@ Element* search_elem(std::string name) {
     /*
 
     */
+    int counter = 0;
     int id = hash_first(name);
     if (search_element_with_number(id + 1, ptr_data)->name != name) {
         while(search_element_with_number(id + 1, ptr_data)->name != name) {
             id = hash_second(name, id);
+            counter++;
+            if(counter == table_len) {
+                    std::cout << "there is not this element in table" << std::endl;
+                break;
+            }
         }
     }
 
@@ -373,6 +381,21 @@ int main() {
     std::cout << "Maked table" << std::endl;
 
     std::cout << "The hash of string " << str << " is " << table.hash_first(str) << std::endl;
+
+    std::string arr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
+    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    std::string strg;
+    for (int i = 0; i < 1; i++) {
+        strg += arr[i];
+        Element* elem = new Element();
+        elem->name = strg;
+        std::cout << strg << table.hash_first(strg) << std::endl;
+        table.add_new_element_to_not_full_table(elem, table.ptr_data, 10);
+    }
+    std::cout << "Table is used" << std::endl;
+    std::cout << "find a" << std::endl;
+    std::cout << table.search_elem("a")->name << std::endl;
 
     return 0;
 }
