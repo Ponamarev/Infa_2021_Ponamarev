@@ -197,11 +197,7 @@ void remove_element_with_current(int current, List* massive) {
 
 class Hash_table {
 private:
-<<<<<<< HEAD
     int prime = 5;
-=======
-    int prime = 4;
->>>>>>> ecc4c48503a3c14f00bd3da8f9361738090c3523
     int alpha_hash = 3;
     int table_len = 10;
     int count_of_elements = 0;
@@ -338,31 +334,7 @@ public:
             new_len = table_len * 1.3;
         }
 
-<<<<<<< HEAD
         rehash(new_len);
-=======
-        List* new_ptr_list = new List();
-        for (int i = 0; i < new_len; i++) {
-            append(0, new_ptr_list);
-        }
-        //Ïåðåíîñ ýëåìåíòîâ â íîâûé ìàññèâ.
-        Element* ptr_elem_old_data = ptr_data->start_ptr;
-        Element* ptr_next_elem_old_data = ptr_elem_old_data;
-        for (int i = 0; i < table_len; i++) {
-            ptr_elem_old_data = ptr_next_elem_old_data;
-            if (i != table_len - 1) {
-                ptr_next_elem_old_data = ptr_elem_old_data->next_ptr;
-            }
-            if (not(ptr_elem_old_data->empty)) {
-                add_new_element_to_not_full_table(ptr_elem_old_data, new_ptr_list, new_len);
-            }
-            else {
-                delete [] ptr_elem_old_data;
-            }
-        }
-        delete [] ptr_data;
-        ptr_data = new_ptr_list;
->>>>>>> ecc4c48503a3c14f00bd3da8f9361738090c3523
 
     }
     add_new_element_to_not_full_table(elem, ptr_data, table_len, false);
@@ -410,7 +382,6 @@ int main() {
         Element* elem = new Element();
         elem->name = strg;
         std::cout << strg << std::endl;
-        std::cout << "��-��� " << table.count_of_elements << " " << table.table_len<< " " << table.ptr_data->lenght << std::endl;
         table.add_new_element(elem);
     }
     std::cout << "Table is used" << std::endl;
