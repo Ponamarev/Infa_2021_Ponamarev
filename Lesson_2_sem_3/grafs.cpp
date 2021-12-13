@@ -25,7 +25,6 @@ public:
     Graff(int count) {
         //create graff with "count" elements, that have not neighbours.
         std::vector <std::vector <bool>> _matrix_(count);
-        //Create matrix.
         for (int i = 0; i < count; i++) {
             std::vector <bool> vect(count);
             _matrix_.at(i) = vect;
@@ -93,10 +92,10 @@ public:
     BFS_seacher(Graff graff_) : Parent_class(graff_) {
         output_list = std::vector<std::vector <int>>(count_of_elems);     //std::vector <bool> pointed_list(graff.count_of_vertex);
 
-        /*for (int i = 0; i < count_of_elems; i++) {
-            std::vector <bool> elem(count_of_elems);
-            output_list.at(i) ;
-        }*/
+        for (int i = 0; i < count_of_elems; i++) {
+            std::vector <int> elem(1);
+            output_list.at(i) = elem;
+        }
         }
 
 
@@ -114,12 +113,13 @@ public:
                 }
                 std::cout << std::endl;
             }
+        std::cout << std::endl;
     }
 
 
     void __breadth_search(int number_of_elem, int num) {
         if (pointed_list[number_of_elem] == false) {
-            pointed_list[number_of_elem] == true;
+            pointed_list.at(number_of_elem) = true;
             output_list.at(num).push_back(number_of_elem);
             num++;
             for (int i = 0; i < count_of_elems; i++) {

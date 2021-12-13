@@ -28,8 +28,8 @@ bool compare(Data_id id_1, Data_id id_2) {
         answer = true;
     }
     if (id_1.delta == id_2.delta) {
-    if (id_1.id < id_2.id) {answer = true;}
-    else {answer = false;}
+    answer = true;
+
     }
     if (id_1.delta > id_2.delta) {
         answer = false;
@@ -38,10 +38,19 @@ bool compare(Data_id id_1, Data_id id_2) {
 }
 
 
+bool compare_id(Data_id id_1, Data_id id_2) {
+    bool answer;
+
+    if (id_1.id < id_2.id) {answer = true;}
+    else { answer = false;}
+
+    return answer;
+}
+
+
 int main () {
     int N, time, id;
     std::vector<Data_id> data_list;
-    std::vector<int> answers;
     float a, s, u, f, n_a;
 
     std::cin >> N;
@@ -75,11 +84,22 @@ int main () {
     sort(suspects.begin(), suspects.end(), compare);
 
     int count;
+    std::vector <Data_id> answer;
     if (suspects.size() > 3) {count = 3;}
     else {count = suspects.size();}
 
     for (int i = 0; i < count; i++) {
-        std::cout << suspects[i].id << " ";
+        answer.push_back(suspects[i]);
+    }
+
+    sort(answer.begin(), answer.end(), compare_id);
+    if (count > 0) {
+    for (int i = 0; i < count; i++) {
+        std::cout << answer[i].id << " ";
+    }
+    }
+    else {
+        std::cout << -1 << " ";
     }
 
     return 0;}

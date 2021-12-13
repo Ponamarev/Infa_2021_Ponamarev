@@ -1,9 +1,5 @@
-#include <iostream>
-#include <string>
-
-
 struct Element {
-    int current;
+    int current = 0;
     std::string name;
     Element* next_ptr = nullptr;
     bool empty = true;
@@ -195,7 +191,7 @@ void remove_element_with_current(int current, List* massive) {
 
 
 
-class Hash_table {
+class Checker {
 private:
     int prime = 5;
     int alpha_hash = 3;
@@ -205,14 +201,14 @@ private:
 
 
 public:
-        Hash_table() {
+        Checker() {
         for(int i = 0; i < table_len; i++) {
             append(0, ptr_data);
         }
     }
 
 
-    ~Hash_table() {
+    ~Checker() {
         Element* ptr_element = ptr_data->start_ptr;
         Element* ptr_next_element = ptr_element->next_ptr;
         for(int i = 0; i < table_len; i++) {
@@ -319,7 +315,7 @@ public:
     }
 
 
-    void add_new_element(Element* elem) {
+    void add_new_elem(Element* elem) {
     /*
     Äîáàâëÿåò íîâûé ýëåìåíò â õåø òàáëèöó.
     */
@@ -341,20 +337,35 @@ public:
     }
 
 
+    void Add(std::string s) {
+        Element* element = new Element();
+        element->name = s;
+        element->empty = false;
+        add_new_elem(element);
+    }
+
+
 Element* search_elem(std::string name) {
     /*
 
     */
     int counter = 0;
+    Element* answer;
     int id = hash_first(name);
+
     if (search_element_with_number(id + 1, ptr_data)->name != name) {
         while(search_element_with_number(id + 1, ptr_data)->name != name) {
             id = hash_second(name, id);
             counter++;
             if(counter == table_len) {
-                    std::cout << "there is not this element in table" << std::endl;
+                    answer = new Element();
+                    answer->current = -1000;
                 break;
             }
+        }
+
+        if(search_element_with_number(id + 1, ptr_data)->name == name) {
+            answer = search_element_with_number(id + 1, ptr_data);
         }
     }
 
@@ -362,38 +373,19 @@ Element* search_elem(std::string name) {
 }
 
 
-void delete_element(std::string name) {
-    search_elem(name)->empty = true;
-    //Можно накинуть удаление того, что дополнительно лежит в структуре.
-}
+bool Exists(const std::string& s) {
+        Element* ans = search_elem(s);
+        bool answer;
+        if (ans->current != -1000) {
+            answer = true;
+        }
+        else {
+            answer = false;
+        }
+
+    }
+
+
 
 
 };
-
-
-int main() {
-    std::cout << "Test mode" << std::endl;
-    Hash_table table;
-    std::string str = "1234454654";
-    std::cout << "Maked table" << std::endl;
-
-    std::cout << "The hash of string " << str << " is " << table.hash_first(str) << std::endl;
-
-    std::string arr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
-    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    std::string strg;
-    for (int i = 0; i < 25; i++) {
-        strg += arr[i];
-        Element* elem = new Element();
-        elem->name = strg;
-        std::cout << strg << std::endl;
-        table.add_new_element(elem);
-    }
-    std::cout << "Table is used" << std::endl;
-    std::cout << "find a" << std::endl;
-    std::cout << table.search_elem("a")->name << std::endl;
-
-
-    return 0;
-}
