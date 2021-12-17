@@ -1,5 +1,12 @@
 #include <iostream>
 #include <string>
+#include <ctime>
+#include <vector>
+
+
+std::string arr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                   'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
+                   'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 
 struct Element {
@@ -129,7 +136,7 @@ void print_list(List* massive, bool end_line) {
     std::cout << '[';
 
     for (int num = 1; num <= massive->lenght; num++) {
-        std::cout << ptr_element->current;
+        std::cout << ptr_element->empty;
 
         if (num < massive->lenght) {
             std::cout << ", ";
@@ -144,7 +151,7 @@ void print_list(List* massive, bool end_line) {
         std::cout << std::endl;
     }
 
-    delete ptr_element;
+    //delete ptr_element;
 }
 
 
@@ -216,7 +223,7 @@ public:
         Element* ptr_element = ptr_data->start_ptr;
         Element* ptr_next_element = ptr_element->next_ptr;
         for(int i = 0; i < table_len; i++) {
-            delete ptr_element;
+            //delete ptr_element;
             Element* ptr_element = ptr_next_element;
             if(i != table_len - 1) {
                 ptr_next_element = ptr_next_element->next_ptr;
@@ -257,7 +264,7 @@ public:
         if (not(ptr_element->empty)) {
             while (not(ptr_element->empty)) {
                 id = hash_second(elem->name, id);
-                std::cout <<"id_in_adding" << id << std::endl;
+                //std::cout <<"id_in_adding" << id << std::endl;
                 ptr_element = search_element_with_number(id + 1, ptr_data);
             }
         }
@@ -325,7 +332,7 @@ public:
     */
 
 // ÏÐÎÂÅÐÊÀ ÍÀ ÇÀÏÎËÍÅÍÍÎÑÒÜ ÒÀÁËÈÖÛ
-    if (count_of_elements > 0.7 * table_len) {
+    if (count_of_elements > 0.3 * table_len) {
         int new_len; // âðåìåííî!!!!!!!!!!
         if (table_len < 50) {
             new_len = table_len * 2;
@@ -348,10 +355,10 @@ Element* search_elem(std::string name) {
     int counter = 0;
     int id = hash_first(name);
     if (search_element_with_number(id + 1, ptr_data)->name != name) {
-        while(search_element_with_number(id + 1, ptr_data)->name != name) {
+        while(search_element_with_number(id + 1, ptr_data)->name != name ) {
             id = hash_second(name, id);
             counter++;
-            if(counter == table_len) {
+            if(counter == table_len || (search_element_with_number(id + 1, ptr_data)->empty)) {
                     std::cout << "there is not this element in table" << std::endl;
                 break;
             }
@@ -366,9 +373,26 @@ void delete_element(std::string name) {
     search_elem(name)->empty = true;
     //Можно накинуть удаление того, что дополнительно лежит в структуре.
 }
-
-
 };
+
+
+std::vector <std::string> fill_table(int count, Hash_table* table, std::vector <std::string> data) {
+    std::string str;
+    for(int i = 0; i < count; i++) {
+        str.clear();
+        int len = 50;
+        for(int num = 0; num < len; num++) {
+            str += arr[rand() % 25];
+        }
+        data.push_back(str);
+        Element* elem = new Element();
+        elem->name = str;
+        //std::cout << str << std::endl;
+        table->add_new_element(elem);
+    }
+
+    return data;
+}
 
 
 int main() {
@@ -376,23 +400,51 @@ int main() {
     Hash_table table;
     std::string str = "1234454654";
     std::cout << "Maked table" << std::endl;
+    std::vector <int> times; //time of working
+    std::vector <int> data_count;  //count of elements
+    int max_count = 40000;
+    std::vector <std::string> data;
 
-    std::cout << "The hash of string " << str << " is " << table.hash_first(str) << std::endl;
+    //std::cout << "The hash of string " << str << " is " << table.hash_first(str) << std::endl;
 
-    std::string arr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-         'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
-    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-    std::string strg;
-    for (int i = 0; i < 25; i++) {
+
+    //std::string strg;
+
+
+   /* for (int i = 0; i < 25; i++) {
         strg += arr[i];
         Element* elem = new Element();
         elem->name = strg;
         std::cout << strg << std::endl;
         table.add_new_element(elem);
+    }*/
+
+
+    for (int count = 500; count < max_count; count += 500) {
+        std::vector <std::string> data;
+        int start_time;
+        int stop_time;
+        data = fill_table(500, &table, data);
+        start_time = clock();
+        for (int d = 0; d < 5; d++) {
+            for(int f = 0; f < 10; f++) {
+                table.search_elem(data[d]);
+            }
+        }
+        stop_time = clock();
+        times.push_back(stop_time - start_time);
+        data_count.push_back(count);
     }
+
+
     std::cout << "Table is used" << std::endl;
     std::cout << "find a" << std::endl;
-    std::cout << table.search_elem("a")->name << std::endl;
+    //print_list(table.ptr_data, 1);
+    //std::cout << table.search_elem("a")->name << std::endl;
+
+    for (int h = 0; h < data_count.size(); h++) {
+        std::cout << data_count[h] << "\t" << times[h] << std::endl;
+    }
 
 
     return 0;
